@@ -1,8 +1,8 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { Alert, Button, Checkbox, Flex, Form, Input } from "antd";
 import { memo } from 'react';
-import { loginUser } from '../../../http/apiCalls';
+import { getSelfData, loginUser } from '../../../http/apiCalls';
 import { ButtonStyles, FormStyles, InputStyles } from "../styles/Login.styles";
 import { LoginUserData } from '../types';
 
@@ -10,7 +10,6 @@ const LoginForm = memo(() => {
 
   const login = async (values: LoginUserData) => {
     const { email, password } = values
-    console.log(email, password)
     try {
       const { data } = await loginUser({
         email,
@@ -22,10 +21,30 @@ const LoginForm = memo(() => {
     }
   }
 
+  const getSelf = async () => {
+    try {
+      const { data } = await getSelfData()
+      console.log(data)
+      return data;
+    } catch (error) {
+      throw new Error(error as string)
+
+    }
+  }
+
+
+  const { data: userData, refetch } = useQuery({
+    queryKey: ['self'],
+    queryFn: getSelf,
+    staleTime: 1000 * 60 * 5,
+    enabled: false
+  })
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
+      refetch()
+      console.log(userData)
     },
 
   })
