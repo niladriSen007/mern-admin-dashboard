@@ -5,9 +5,11 @@ import { memo } from 'react';
 import { getSelfData, loginUser } from '../../../http/apiCalls';
 import { ButtonStyles, FormStyles, InputStyles } from "../styles/Login.styles";
 import { LoginUserData } from '../types';
+import { useAuthStore } from '../../../store/store';
 
 const LoginForm = memo(() => {
 
+  const { setUserData } = useAuthStore()
   const login = async (values: LoginUserData) => {
     const { email, password } = values
     try {
@@ -24,29 +26,25 @@ const LoginForm = memo(() => {
   const getSelf = async () => {
     try {
       const { data } = await getSelfData()
-      console.log(data)
       return data;
     } catch (error) {
       throw new Error(error as string)
-
     }
   }
 
 
-  const { data: userData, refetch } = useQuery({
+  const { refetch } = useQuery({
     queryKey: ['self'],
     queryFn: getSelf,
-    staleTime: 1000 * 60 * 5,
     enabled: false
   })
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      refetch()
-      console.log(userData)
+    onSuccess: async () => {
+      const userData = await refetch()
+      setUserData(userData?.data)
     },
-
   })
 
 
