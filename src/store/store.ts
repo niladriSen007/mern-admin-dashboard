@@ -16,9 +16,10 @@ interface AuthInitialState {
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthInitialState>(devtools((set) => ({
-  user: null,
-  isLogged: false,
-  setUserData: (user) => set({ user, isLogged: true }),
-  logout: () => set({ user: null, isLogged: false }),
-})))
+export const useAuthStore =
+  create<AuthInitialState>()(devtools((set) => ({
+    user: null,
+    isLogged: false,
+    setUserData: (user) => set({ user, isLogged: true }),
+    logout: () => set({ user: null, isLogged: false }),
+  })))
