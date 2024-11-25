@@ -1,18 +1,18 @@
-import { createBrowserRouter } from "react-router-dom";
-import { HomePage, LoginPage } from "./index";
+import { createBrowserRouter } from "react-router-dom"
+import { HomePage, LoginPage } from "./index"
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />
+    element: <HomePage />,
   },
   {
     path: "/unauth",
     children: [
       {
         path: "/unauth/login",
-        element: <LoginPage />
-      }
-    ]
-  }
+        element: <LoginPage />,
+      },
+    ],
+  },
 ])

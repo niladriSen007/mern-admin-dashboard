@@ -8,3 +8,7 @@ export const loginUser = (userData: LoginUserData)  => {
 export const getSelfData = () => {
   return api.get(`/auth/self`)
 }
+
+export const logoutUser = () => {
+  return api.post(`/auth/logout`)
+}
