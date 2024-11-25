@@ -10,12 +10,8 @@ export const LayoutStyles: CSSProperties = {
 export const CardStyles: CSSProperties = {
   width: "400px",
   margin: "0 auto",
-  border: "0.1px solid #999999",
   borderRadius: "10px",
-  boxShadow: "0 0 10px 0 rgba(0,0,0,0.09)",
-
-  /*   textAlign: 'center',
-   */
+  boxShadow: "2px 2px 16px  #808080",
 }
 
 export const ButtonStyles: CSSProperties = {
@@ -44,7 +40,10 @@ export const LogoStyles: CSSProperties = {
 export const LogoContainerStyles: CSSProperties = {
   marginTop: "16px",
 }
-export const InputStyles: CSSProperties = { marginBottom: "4px" }
+export const InputStyles: CSSProperties = {
+  marginBottom: "4px",
+  border: "1px solid #AEAEAE",
+}
 export const LinkStyles: CSSProperties = {
   marginLeft: "4px",
   color: linkTextColor,
