@@ -12,7 +12,7 @@ export interface User {
 interface AuthInitialState {
   user: User | null
   isLogged: boolean
-  setUserData: (user: User) => void
+  setUserData: (user: User | null) => void
   logout: () => void
 }
 

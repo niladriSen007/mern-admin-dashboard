@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query"
 import { getSelfData } from "../http/apiCalls"
 
-export const useUserDataFetch = () => {
-  const { refetch : userDataFetch } = useQuery({
+export const useUserDataFetch = (enabled ?: boolean) => {
+  const { refetch : userDataFetch,data,isPending } = useQuery({
     queryKey: ["self"],
     queryFn: getSelfData,
-    enabled: false,
+    enabled: enabled ?? true,
   })
 
   return {
     userDataFetch,
+    data,
+    isPending
   }
 }
