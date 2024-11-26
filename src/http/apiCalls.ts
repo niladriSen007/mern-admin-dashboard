@@ -12,3 +12,4 @@ export const getSelfData = () => {
 export const logoutUser = () => {
   return api.post(`/auth/logout`)
 }
+
