@@ -1,6 +1,8 @@
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div style={{
+      padding: "48px",
+    }}>Dashboard</div>
   )
 }
 export default Dashboard

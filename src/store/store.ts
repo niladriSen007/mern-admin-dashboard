@@ -2,12 +2,19 @@ import { theme } from 'antd';
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 
+export interface Tenant{
+  id: number
+  name: string
+  address: string
+}
+
 export interface User {
   id: number
   email: string
   firstName: string
   lastName: string
   roles: string
+  tenant:Tenant
 }
 
 interface AuthInitialState {
