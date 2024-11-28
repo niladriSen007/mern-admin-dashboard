@@ -1,9 +1,9 @@
-const DashboardFallback = () => {
+const Fallback = ({label} : {label : string}) => {
   return (
     <div>
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading dashboard...</p>
+        <p>Loading {label}...</p>
       </div>
 
       <style>{`
@@ -35,4 +35,4 @@ const DashboardFallback = () => {
   )
 }
 
-export default DashboardFallback
+export default Fallback

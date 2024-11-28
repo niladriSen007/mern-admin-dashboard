@@ -32,10 +32,10 @@ const HeaderComponent = memo(
       <Header style={{ padding: "4px 48px", background: colorBgContainer }}>
         <Flex justify="space-between" align="center" style={{ height: "100%" }}>
           <Badge
-          
+        
             text={
               roles === Constants?.MANAGER
-                ? `Hi Manager, ${tenant?.name} , ${tenant?.address} `
+                ? `Hi Manager. ${tenant?.name}, ${tenant?.address}`
                 : "Hi, Admin"
             }
             status="success"

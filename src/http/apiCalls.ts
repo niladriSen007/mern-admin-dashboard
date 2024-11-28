@@ -13,3 +13,7 @@ export const logoutUser = () => {
   return api.post(`/auth/logout`)
 }
 
+export const getAllUsers = () => {
+  return api.get(`/users/getAllUsers`)
+}
+

@@ -1,12 +1,11 @@
 import { Card, Col, Flex, Image, Row, Statistic, Typography } from "antd"
+import Chip from "../../components/common/Chip"
 import { Bag } from "../../components/icons/Bag"
 import Bar from "../../components/icons/Bar"
 import OrangeBag from "../../components/icons/OrangeBag"
 import { useCurrentTime } from "../../hooks/useCurrentTime"
 import { useAuthStore } from "../../store/store"
 import { TitleStyles, UserNameStyles } from "./styles/Dashboard.styles"
-import { BarChartIcon } from "../../components/icons/BarChart"
-import Chip from "../../components/common/Chip"
 
 const Dashboard = () => {
   const { user } = useAuthStore()
