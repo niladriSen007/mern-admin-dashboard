@@ -29,14 +29,14 @@ const HeaderComponent = memo(
 
     const { roles, tenant } = user || {}
     return (
-      <Header style={{ padding: "4px 64px", background: colorBgContainer }}>
+      <Header style={{ padding: "4px 48px", background: colorBgContainer }}>
         <Flex justify="space-between" align="center" style={{ height: "100%" }}>
           <Badge
           
             text={
               roles === Constants?.MANAGER
-                ? `${tenant?.name} , ${tenant?.address} `
-                : "Global"
+                ? `Hi Manager, ${tenant?.name} , ${tenant?.address} `
+                : "Hi, Admin"
             }
             status="success"
           />

@@ -22,7 +22,7 @@ const AuthLayout = memo(() => {
         <SideBar colorBgContainer={colorBgContainer} items={items} />
         <Layout>
           <HeaderComponent colorBgContainer={colorBgContainer} />
-          <Content style={{ margin: "0 16px" }}>
+          <Content style={{ margin: "48px" }}>
             <Outlet />
           </Content>
         </Layout>
