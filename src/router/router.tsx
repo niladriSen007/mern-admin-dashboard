@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom"
 
 import { LoginPage, AuthLayout, Dashboard, UnauthLayout,RootLayout,Users } from "./index"
+import Restaurants from "../pages/restaurants/Restaurants"
+import SingleRestaurant from "../pages/restaurants/id/SingleRestaurant"
 
 
 export const router = createBrowserRouter([
@@ -19,6 +21,14 @@ export const router = createBrowserRouter([
           {
             path: "/users",
             element: <Users />,
+          },
+          {
+            path: "/restaurants/:id",
+            element: <SingleRestaurant />
+          },
+          {
+            path: "/restaurants",
+            element: <Restaurants />,
           },
          
         ],

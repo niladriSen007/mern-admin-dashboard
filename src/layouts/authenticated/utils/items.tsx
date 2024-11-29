@@ -1,10 +1,11 @@
 import Icon from "@ant-design/icons"
-import Home from "../../../components/icons/Home"
 import { NavLink } from "react-router-dom"
-import UserIcon from "../../../components/icons/UserIcon"
-import { FoodIcon } from "../../../components/icons/FoodIcon"
 import BasketIcon from "../../../components/icons/BasketIcon"
+import { FoodIcon } from "../../../components/icons/FoodIcon"
 import GiftIcon from "../../../components/icons/GiftIcon"
+import Home from "../../../components/icons/Home"
+import Restaurant from "../../../components/icons/Restaurant"
+import UserIcon from "../../../components/icons/UserIcon"
 
 export const getSidebarItems = (role: string) => {
   const baseItems = [
@@ -14,24 +15,35 @@ export const getSidebarItems = (role: string) => {
       label: <NavLink to="/">Home</NavLink>,
       priority: 1,
     },
-
+    {
+      key: "/profile",
+      icon: <Icon component={UserIcon} />,
+      label: <NavLink to="/profile">Profile</NavLink>,
+      priority: 7,
+    },
+    {
+      key: "/restautants",
+      icon: <Icon component={Restaurant} />,
+      label: <NavLink to="/restaurants">Restaurant</NavLink>,
+      priority: 3,
+    },
     {
       key: "/products",
       icon: <Icon component={FoodIcon} />,
       label: <NavLink to="/products">Products</NavLink>,
-      priority: 3,
+      priority: 4,
     },
     {
       key: "/orders",
       icon: <Icon component={BasketIcon} />,
       label: <NavLink to="/orders">Orders</NavLink>,
-      priority: 4,
+      priority: 5,
     },
     {
       key: "/promos",
       icon: <Icon component={GiftIcon} />,
       label: <NavLink to="/promos">Promos</NavLink>,
-      priority: 5,
+      priority: 6,
     },
   ]
 

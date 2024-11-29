@@ -98,11 +98,15 @@ export const columns: TableProps<DataType>["columns"] = [
   },
   {
     title: "Created at",
-    key: "creationDate",
-    render: () => (
-      <Space size="middle">
-        <span>{"12 Nov 2032"}</span>
-      </Space>
-    ),
+    key: "createdAt",
+    dataIndex: "createdAt",
+    render: (_,record) => {
+      const createdDate = new Date(record?.createdAt)?.toLocaleDateString();
+      return(
+        <Space size="middle">
+          <span>{createdDate ?? new Date().toLocaleDateString()}</span>
+        </Space>
+      )
+    },
   },
 ]

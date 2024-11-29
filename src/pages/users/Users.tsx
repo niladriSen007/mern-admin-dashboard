@@ -1,13 +1,14 @@
-import { Button, Table } from "antd"
+import Icon from "@ant-design/icons"
+import { Button, Form, Modal, Space, Table } from "antd"
 import { lazy, Suspense, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
+import Vector from "../../components/icons/Vector"
 import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
+import { useCreateUser } from "../../hooks/useCreateUser"
 import { useAuthStore } from "../../store/store"
-
 import { columns } from "./utils/Columns"
-/* const CreateUserDrawer = lazy(() => import("./_components/CreateUserDrawer")) */
-const CreateUserModal = lazy(() => import("./_components/CreateUserModal"))
+const CreateUserForm = lazy(() => import("./_components/forms/CreateUserForm"))
 const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
@@ -16,8 +17,26 @@ const Users = () => {
   const { user } = useAuthStore()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [form] = Form.useForm()
+  const { createUserMutation } = useCreateUser()
+
+  const handleCreateUser = async () => {
+    try {
+      await form.validateFields()
+      createUserMutation(form.getFieldsValue())
+     /*  queryClient.invalidateQueries({
+        queryKey: ["allUsers"],
+      }) */
+    } catch (error: unknown) {
+      throw new Error(error as string)
+    } finally {
+      form.resetFields()
+      setOpen(!open)
+    }
+  }
 
   if (user?.roles !== "ADMIN") return <Navigate to="/" replace={true} />
+
   return (
     <Suspense fallback={<Fallback label={"User data"} />}>
       <BreadCrumb />
@@ -50,11 +69,54 @@ const Users = () => {
       />
       {/*       <CreateUserDrawer {...{ open, setOpen }} />
        */}{" "}
-      <CreateUserModal {...{ open, setOpen, loading }}>
-        <Button type="primary" onClick={() => setOpen(!open)}>
-          Submit
-        </Button>
-      </CreateUserModal>
+      <Modal
+        style={{
+          top: "5%",
+        }}
+        width={"800px"}
+        height={"600px"}
+        title={
+          <Space
+            style={{
+              margin: "16px 0",
+              fontSize: "20px",
+            }}
+          >
+            User form
+          </Space>
+        }
+        footer={
+          <Space
+            align="center"
+            style={{
+              marginTop: "16px",
+            }}
+          >
+            <Button
+              onClick={() => {
+                form.resetFields()
+                setOpen(false)
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              icon={<Icon size={32} component={Vector} />}
+              type="primary"
+              onClick={handleCreateUser}
+            >
+              Save
+            </Button>
+          </Space>
+        }
+        loading={loading}
+        open={open}
+        onCancel={() => setOpen(!open)}
+      >
+        <Form layout="vertical" form={form}>
+          <CreateUserForm />
+        </Form>
+      </Modal>
     </Suspense>
   )
 }

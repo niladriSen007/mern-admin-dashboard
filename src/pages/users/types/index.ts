@@ -7,4 +7,5 @@ export interface DataType {
   tenant : {
     id : string
   }
+  createdAt: string
 }

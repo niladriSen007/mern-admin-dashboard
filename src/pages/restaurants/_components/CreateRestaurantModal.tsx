@@ -7,7 +7,7 @@ export interface CreateModalProps {
   loading: boolean
 }
 
-const CreateUserModal = ({
+const CreateRestaurantModal = ({
   children,
   open,
   setOpen,
@@ -18,7 +18,7 @@ const CreateUserModal = ({
       centered
       width={"800px"}
       height={"600px"}
-      title={<p>Loading User form</p>}
+      title={<p>Loading Restaurant form</p>}
       footer={children}
       loading={loading}
       open={open}
@@ -30,9 +30,9 @@ const CreateUserModal = ({
             <Form.Item
               name="name"
               label="Name"
-              rules={[{ required: true, message: "Please enter user name" }]}
+              rules={[{ required: true, message: "Please enter Restaurant name" }]}
             >
-              <Input placeholder="Please enter user name" />
+              <Input placeholder="Please enter Restaurant name" />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -129,4 +129,4 @@ const CreateUserModal = ({
     </Modal>
   )
 }
-export default CreateUserModal
+export default CreateRestaurantModal
