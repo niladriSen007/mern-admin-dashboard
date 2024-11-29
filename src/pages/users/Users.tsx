@@ -1,5 +1,5 @@
-import Icon from "@ant-design/icons"
-import { Button, Form, Modal, Space, Table } from "antd"
+import Icon, { LoadingOutlined } from "@ant-design/icons"
+import { Alert, Button, Flex, Form, Modal, Space, Spin, Table, Typography } from "antd"
 import { lazy, Suspense, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
@@ -8,12 +8,17 @@ import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
 import { useCreateUser } from "../../hooks/useCreateUser"
 import { useAuthStore } from "../../store/store"
 import { columns } from "./utils/Columns"
+import { PaginationResultLimit } from "../../constants/Constants"
 const CreateUserForm = lazy(() => import("./_components/forms/CreateUserForm"))
 const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
 const Users = () => {
-  const { data } = useAllUsersDataFetch()
+  const [queryParams, setQueryParams] = useState({
+    currentPage: 1,
+    limit: 6,
+  })
+  const { data, isFetching, error } = useAllUsersDataFetch(queryParams)
   const { user } = useAuthStore()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -24,7 +29,7 @@ const Users = () => {
     try {
       await form.validateFields()
       createUserMutation(form.getFieldsValue())
-     /*  queryClient.invalidateQueries({
+      /*  queryClient.invalidateQueries({
         queryKey: ["allUsers"],
       }) */
     } catch (error: unknown) {
@@ -39,7 +44,13 @@ const Users = () => {
 
   return (
     <Suspense fallback={<Fallback label={"User data"} />}>
-      <BreadCrumb />
+      <Flex justify="space-between">
+        <BreadCrumb />
+        {isFetching && <Spin indicator={<LoadingOutlined size={48} />} />}
+        {error && (
+          <Alert type="error" showIcon closable message={error?.message} banner={true} />
+        )}
+      </Flex>
       <UserFilter
         onFilterChange={(filterName, filterValue) => {
           console.log(filterName, filterValue)
@@ -62,7 +73,15 @@ const Users = () => {
         rowKey={"id"}
         pagination={{
           position: ["bottomRight"],
-          pageSize: 6,
+          pageSize: PaginationResultLimit,
+          current: queryParams.currentPage,
+          total: data?.data?.count,
+          onChange: (page) => {
+            setQueryParams((prev) => ({
+              ...prev,
+              currentPage: Number(page),
+            }))
+          },
         }}
         columns={columns}
         dataSource={data?.data?.users}

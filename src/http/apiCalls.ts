@@ -14,8 +14,8 @@ export const logoutUser = () => {
   return api.post(`/auth/logout`)
 }
 
-export const getAllUsers = () => {
-  return api.get(`/users/getAllUsers`)
+export const getAllUsers = (currentPage : number,limit : number) => {
+  return api.get(`/users/getAllUsers?currentPage=${currentPage?.toString()}&limit=${limit?.toString()}`)
 }
 
 export const getAllTenants = () => {

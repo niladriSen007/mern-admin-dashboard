@@ -3,3 +3,5 @@ export const Constants = {
   ADMIN: "ADMIN",
   CUSTOMER: "CUSTOMER",
 }
+
+export const PaginationResultLimit = 6
