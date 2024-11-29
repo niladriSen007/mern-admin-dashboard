@@ -5,6 +5,7 @@ import { columns } from "./utils/Columns"
 import Fallback from "../../components/common/Fallback"
 import { useAuthStore } from "../../store/store"
 import { Navigate } from "react-router-dom"
+const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
 const Users = () => {
@@ -14,6 +15,7 @@ const Users = () => {
   return (
     <Suspense fallback={<Fallback label={"User data"}/>}>
       <BreadCrumb />
+      <UserFilter />
       <Table pagination={{
         position: ["bottomRight"],
         pageSize: 6,
