@@ -10,16 +10,25 @@ const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
 const Users = () => {
   const { data } = useAllUsersDataFetch()
-  const {user} = useAuthStore()
-  if(user?.roles !== 'ADMIN') return <Navigate to="/" replace={true} />
+  const { user } = useAuthStore()
+  if (user?.roles !== "ADMIN") return <Navigate to="/" replace={true} />
   return (
-    <Suspense fallback={<Fallback label={"User data"}/>}>
+    <Suspense fallback={<Fallback label={"User data"} />}>
       <BreadCrumb />
-      <UserFilter />
-      <Table pagination={{
-        position: ["bottomRight"],
-        pageSize: 6,
-      }} columns={columns} dataSource={data?.data?.users} />
+      <UserFilter
+        onFilterChange={(filterName, filterValue) => {
+          console.log(filterName, filterValue)
+        }}
+      />
+      <Table
+      rowKey={"id"}
+        pagination={{
+          position: ["bottomRight"],
+          pageSize: 6,
+        }}
+        columns={columns}
+        dataSource={data?.data?.users}
+      />
     </Suspense>
   )
 }

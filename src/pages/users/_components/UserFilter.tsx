@@ -1,8 +1,12 @@
 import { Button, Card, Col, Input, Row, Select } from "antd"
-import { memo } from "react"
+import { ChangeEvent, memo } from "react"
 import { roleFilter, statusFilter } from "../utils/filterData"
 
-const UserFilter = memo(() => {
+interface UserFilterProps {
+  onFilterChange: (filterName: string, filterValue: string) => void
+}
+
+const UserFilter = memo(({ onFilterChange }: UserFilterProps) => {
   return (
     <Card
       style={{
@@ -15,10 +19,23 @@ const UserFilter = memo(() => {
         <Col span={8}>
           <Row justify={"space-between"} align={"middle"} gutter={16}>
             <Col>
-              <Input.Search placeholder="Search user" />
+              <Input.Search
+              allowClear
+                placeholder="Search user"
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  onFilterChange("searchByName", e.target.value)
+                }
+              />
             </Col>
             <Col>
-              <Select defaultValue="ALL" style={{ width: 120 }}>
+              <Select
+              allowClear
+                defaultValue="ALL"
+                style={{ width: 120 }}
+                onChange={(selectedValue: string) =>
+                  onFilterChange("roleFilter", selectedValue)
+                }
+              >
                 {roleFilter.map((role) => (
                   <Select.Option key={role?.key} value={role?.value}>
                     {role?.label}
@@ -27,7 +44,14 @@ const UserFilter = memo(() => {
               </Select>
             </Col>
             <Col>
-              <Select defaultValue="all" style={{ width: 120 }}>
+              <Select
+              allowClear
+                defaultValue="all"
+                style={{ width: 120 }}
+                onChange={(selectedValue: string) =>
+                  onFilterChange("statusFilter", selectedValue)
+                }
+              >
                 {statusFilter.map((status) => (
                   <Select.Option key={status?.key} value={status?.value}>
                     {status?.label}
