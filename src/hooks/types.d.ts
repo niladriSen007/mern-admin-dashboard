@@ -6,3 +6,8 @@ export interface CreateUserDataProps{
   firstName: string
   lastName: string
 }
+
+export interface CreateRestaurantDataProps{
+  name : string
+  address : string
+}

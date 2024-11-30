@@ -1,4 +1,4 @@
-import { CreateUserDataProps } from "../hooks/types"
+import { CreateRestaurantDataProps, CreateUserDataProps } from "../hooks/types"
 import { LoginUserData } from "../pages/login/types"
 import { api } from "./httpClient"
 
@@ -35,6 +35,10 @@ export const getSingleTenant = (id: string) => {
 
 export const createUser = (userData: CreateUserDataProps) => {
   return api.post(`/users/register`, userData)
+}
+
+export const createRestaurant = (restaurantData: CreateRestaurantDataProps) => {
+  return api.post(`/tenants`, restaurantData)
 }
 
 export const registerAdmin = (userData: CreateUserDataProps) => {

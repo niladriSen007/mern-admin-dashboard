@@ -93,7 +93,7 @@ export const columns: TableProps<DataType>["columns"] = [
     key: "tenant",
     render: (_, record) => (
       <Space>
-        {record?.tenant ? <Link to={`/restaurants/${record?.tenant?.id}`}>{record?.tenant?.id}</Link> : "N/A"}
+        {record?.tenant ? <Link to={`/restaurants/${record?.tenant?.id}`}>{record?.tenant?.name}</Link> : "N/A"}
       </Space>
     ),
   },

@@ -116,8 +116,6 @@ const Users = () => {
         columns={columns}
         dataSource={data?.data?.users}
       />
-      {/*       <CreateUserDrawer {...{ open, setOpen }} />
-       */}{" "}
       <Modal
         style={{
           top: "5%",

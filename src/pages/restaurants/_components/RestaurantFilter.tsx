@@ -1,6 +1,5 @@
-import { Card, Col, Input, Row, Select } from "antd"
+import { Card, Col, Input, Row } from "antd"
 import { ChangeEvent, memo, ReactNode } from "react"
-import { roleFilter, statusFilter } from "../utils/filterData"
 
 interface RestaurantFilterProps {
   onFilterChange: (filterName: string, filterValue: string) => void
@@ -29,38 +28,7 @@ const RestaurantFilter = memo(
                   }
                 />
               </Col>
-              <Col>
-                <Select
-                  allowClear
-                  defaultValue="ALL"
-                  style={{ width: 120 }}
-                  onChange={(selectedValue: string) =>
-                    onFilterChange("roleFilter", selectedValue)
-                  }
-                >
-                  {roleFilter.map((role) => (
-                    <Select.Option key={role?.key} value={role?.value}>
-                      {role?.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Col>
-              <Col>
-                <Select
-                  allowClear
-                  defaultValue="all"
-                  style={{ width: 120 }}
-                  onChange={(selectedValue: string) =>
-                    onFilterChange("statusFilter", selectedValue)
-                  }
-                >
-                  {statusFilter.map((status) => (
-                    <Select.Option key={status?.key} value={status?.value}>
-                      {status?.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Col>
+             
             </Row>
           </Col>
           <Col>
