@@ -6,7 +6,7 @@ export const roleFilter: {
   {
     key: "All",
     label: "All",
-    value: "ALL",
+    value: "",
   },
   {
     key: "ADMIN",

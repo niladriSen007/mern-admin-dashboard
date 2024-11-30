@@ -1,8 +1,8 @@
-import { CreateUserDataProps } from "../hooks/types";
-import { LoginUserData } from "../pages/login/types";
-import { api } from "./httpClient";
+import { CreateUserDataProps } from "../hooks/types"
+import { LoginUserData } from "../pages/login/types"
+import { api } from "./httpClient"
 
-export const loginUser = (userData: LoginUserData)  => {
+export const loginUser = (userData: LoginUserData) => {
   return api.post("/auth/login", userData)
 }
 
@@ -14,8 +14,15 @@ export const logoutUser = () => {
   return api.post(`/auth/logout`)
 }
 
-export const getAllUsers = (currentPage : number,limit : number) => {
-  return api.get(`/users/getAllUsers?currentPage=${currentPage?.toString()}&limit=${limit?.toString()}`)
+export const getAllUsers = (
+  currentPage: number,
+  limit: number,
+  q: string,
+  role: string
+) => {
+  return api.get(
+    `/users/getAllUsers?currentPage=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}&role=${role}`
+  )
 }
 
 export const getAllTenants = () => {

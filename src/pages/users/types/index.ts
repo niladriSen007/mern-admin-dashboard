@@ -9,3 +9,9 @@ export interface DataType {
   }
   createdAt: string
 }
+
+
+export interface FileldData{
+  name: string[]
+  value?: string
+}

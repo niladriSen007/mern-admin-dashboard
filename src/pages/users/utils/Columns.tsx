@@ -22,7 +22,7 @@ export const columns: TableProps<DataType>["columns"] = [
             borderRadius: "50%",
             objectFit: "cover",
           }}
-          src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${record.id}`}
+          src={`https://api.dicebear.com/9.x/personas/svg?seed=${record.id}`}
           alt="avatar"
         />
         {record.firstName}

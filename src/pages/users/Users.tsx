@@ -1,14 +1,15 @@
 import Icon, { LoadingOutlined } from "@ant-design/icons"
-import { Alert, Button, Flex, Form, Modal, Space, Spin, Table, Typography } from "antd"
+import { Alert, Button, Flex, Form, Modal, Space, Spin, Table } from "antd"
 import { lazy, Suspense, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
+import { PaginationResultLimit } from "../../constants/Constants"
 import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
 import { useCreateUser } from "../../hooks/useCreateUser"
 import { useAuthStore } from "../../store/store"
 import { columns } from "./utils/Columns"
-import { PaginationResultLimit } from "../../constants/Constants"
+import { FileldData } from "./types"
 const CreateUserForm = lazy(() => import("./_components/forms/CreateUserForm"))
 const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
@@ -17,26 +18,51 @@ const Users = () => {
   const [queryParams, setQueryParams] = useState({
     currentPage: 1,
     limit: 6,
+    q: "",
+    role: "",
   })
   const { data, isFetching, error } = useAllUsersDataFetch(queryParams)
   const { user } = useAuthStore()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
+  const [filterForm] = Form.useForm()
   const { createUserMutation } = useCreateUser()
 
   const handleCreateUser = async () => {
     try {
       await form.validateFields()
       createUserMutation(form.getFieldsValue())
-      /*  queryClient.invalidateQueries({
-        queryKey: ["allUsers"],
-      }) */
     } catch (error: unknown) {
       throw new Error(error as string)
     } finally {
       form.resetFields()
       setOpen(!open)
+    }
+  }
+
+  const onFilterChange = (filteredData: FileldData[]) => {
+    const changedFields = filteredData
+      ?.map((field) => ({
+        [field.name[0]]: field.value,
+      }))
+      .reduce((acc, curr) => ({ ...acc, ...curr }), {})
+    // console.log(changedFields)
+
+    if ("q" in changedFields) {
+      setTimeout(() => {
+        setQueryParams((prev) => ({
+          ...prev,
+          ...changedFields,
+          currentPage: 1,
+        }))
+      }, 1000)
+    } else {
+      setQueryParams((prev) => ({
+        ...prev,
+        ...changedFields,
+        currentPage: 1,
+      }))
     }
   }
 
@@ -48,27 +74,31 @@ const Users = () => {
         <BreadCrumb />
         {isFetching && <Spin indicator={<LoadingOutlined size={48} />} />}
         {error && (
-          <Alert type="error" showIcon closable message={error?.message} banner={true} />
+          <Alert
+            type="error"
+            showIcon
+            closable
+            message={error?.message}
+            banner={true}
+          />
         )}
       </Flex>
-      <UserFilter
-        onFilterChange={(filterName, filterValue) => {
-          console.log(filterName, filterValue)
-        }}
-      >
-        <Button
-          type="primary"
-          onClick={() => {
-            setLoading(true)
-            setOpen(true)
-            setTimeout(() => {
-              setLoading(false)
-            }, 2000)
-          }}
-        >
-          + Create User
-        </Button>
-      </UserFilter>
+      <Form form={filterForm} onFieldsChange={onFilterChange}>
+        <UserFilter>
+          <Button
+            type="primary"
+            onClick={() => {
+              setLoading(true)
+              setOpen(true)
+              setTimeout(() => {
+                setLoading(false)
+              }, 2000)
+            }}
+          >
+            + Create User
+          </Button>
+        </UserFilter>
+      </Form>
       <Table
         rowKey={"id"}
         pagination={{

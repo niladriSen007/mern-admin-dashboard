@@ -1,4 +1,4 @@
-import { Space, TableProps } from "antd"
+import { Image, Space, TableProps } from "antd"
 import dayjs from "dayjs"
 import { RestaurantDataType } from "../types"
 import { NavLink } from "react-router-dom"
@@ -24,6 +24,12 @@ export const columns: TableProps<RestaurantDataType>["columns"] = [
     }}>Restaurant name</span>,
     dataIndex: "name",
     key: "name",
+    render: (_, record) => (
+      <Space size="middle">
+        <Image src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${record?.id}`} width={50} height={50} />
+        <span>{record?.name}</span>
+      </Space>
+    ),
   },
   {
     title: <span style={{
