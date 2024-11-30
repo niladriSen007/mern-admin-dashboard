@@ -13,9 +13,11 @@ const SideBar = memo(
   ({
     colorBgContainer,
     items,
+    location,
   }: {
     colorBgContainer: string
     items: Item[]
+    location: { pathname: string }
   }) => {
     const [collapsed, setCollapsed] = useState<boolean>(false)
     return (
@@ -37,7 +39,7 @@ const SideBar = memo(
         </div>
         <Menu
           theme="light"
-          defaultSelectedKeys={["/"]}
+          defaultSelectedKeys={[location.pathname]}
           mode="inline"
           items={items}
           style={{

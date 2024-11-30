@@ -23,6 +23,7 @@ const Dashboard = () => {
           width: "100%",
           margin: "48px 0",
         }}
+        
       >
         <Flex
           vertical

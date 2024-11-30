@@ -21,12 +21,7 @@ export const getSidebarItems = (role: string) => {
       label: <NavLink to="/profile">Profile</NavLink>,
       priority: 7,
     },
-    {
-      key: "/restautants",
-      icon: <Icon component={Restaurant} />,
-      label: <NavLink to="/restaurants">Restaurant</NavLink>,
-      priority: 3,
-    },
+
     {
       key: "/products",
       icon: <Icon component={FoodIcon} />,
@@ -53,6 +48,12 @@ export const getSidebarItems = (role: string) => {
       icon: <Icon component={UserIcon} />,
       label: <NavLink to="/users">Users</NavLink>,
       priority: 2,
+    })
+    baseItems.push({
+      key: "/restaurants",
+      icon: <Icon component={Restaurant} />,
+      label: <NavLink to="/restaurants">Restaurants</NavLink>,
+      priority: 3,
     })
     return baseItems.sort((a, b) => a.priority - b.priority)
   }
