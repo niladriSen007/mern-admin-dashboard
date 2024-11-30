@@ -1,6 +1,7 @@
 import Icon, { LoadingOutlined } from "@ant-design/icons"
 import { Alert, Button, Flex, Form, Modal, Space, Spin, Table } from "antd"
-import { lazy, Suspense, useState } from "react"
+import { debounce } from "lodash"
+import { lazy, Suspense, useMemo, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
@@ -8,13 +9,19 @@ import { PaginationResultLimit } from "../../constants/Constants"
 import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
 import { useCreateUser } from "../../hooks/useCreateUser"
 import { useAuthStore } from "../../store/store"
-import { columns } from "./utils/Columns"
 import { FileldData } from "./types"
+import { columns } from "./utils/Columns"
 const CreateUserForm = lazy(() => import("./_components/forms/CreateUserForm"))
 const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
 const Users = () => {
+  const { user } = useAuthStore()
+  const { createUserMutation } = useCreateUser()
+
+  const [form] = Form.useForm()
+  const [filterForm] = Form.useForm()
+  
   const [queryParams, setQueryParams] = useState({
     currentPage: 1,
     limit: 6,
@@ -22,12 +29,9 @@ const Users = () => {
     role: "",
   })
   const { data, isFetching, error } = useAllUsersDataFetch(queryParams)
-  const { user } = useAuthStore()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [form] = Form.useForm()
-  const [filterForm] = Form.useForm()
-  const { createUserMutation } = useCreateUser()
+
 
   const handleCreateUser = async () => {
     try {
@@ -41,6 +45,12 @@ const Users = () => {
     }
   }
 
+  const debouncedQUpdate = useMemo(() => {
+    return debounce((value: string | undefined) => {
+      setQueryParams((prev) => ({ ...prev, q: value ?? "", currentPage: 1 }))
+    }, 1000)
+  }, [])
+
   const onFilterChange = (filteredData: FileldData[]) => {
     const changedFields = filteredData
       ?.map((field) => ({
@@ -50,13 +60,7 @@ const Users = () => {
     // console.log(changedFields)
 
     if ("q" in changedFields) {
-      setTimeout(() => {
-        setQueryParams((prev) => ({
-          ...prev,
-          ...changedFields,
-          currentPage: 1,
-        }))
-      }, 1000)
+      debouncedQUpdate(changedFields.q)
     } else {
       setQueryParams((prev) => ({
         ...prev,

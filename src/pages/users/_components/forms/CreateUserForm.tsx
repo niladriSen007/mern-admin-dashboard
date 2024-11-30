@@ -5,7 +5,11 @@ import { memo } from "react"
 import { CardStyles } from "../../styles/Users.styles"
 
 const CreateUserForm = memo(() => {
-  const { data } = useAllRestaurantsDataFetch()
+  const { data } = useAllRestaurantsDataFetch({
+    currentPage: 1,
+    limit: 50,
+    q: "",
+  })
   return (
     <Space
       style={{

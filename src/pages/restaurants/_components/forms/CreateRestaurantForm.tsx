@@ -28,7 +28,7 @@ const CreateRestaurantForm = () => {
           <Form.Item
             name="name"
             label="Restaurant name"
-            rules={[{ required: true, message: "Please enter user name" }]}
+            rules={[{ required: true, message: "Please enter restaurant name" }]}
           >
             <Input placeholder="Please enter restaurant name" />
           </Form.Item>

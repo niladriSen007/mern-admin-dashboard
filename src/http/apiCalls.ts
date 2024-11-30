@@ -25,8 +25,10 @@ export const getAllUsers = (
   )
 }
 
-export const getAllTenants = () => {
-  return api.get(`/tenants`)
+export const getAllTenants = ( currentPage: number,
+  limit: number,
+  q: string,) => {
+  return api.get(`/tenants?currentPage=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}`)
 }
 
 export const getSingleTenant = (id: string) => {
