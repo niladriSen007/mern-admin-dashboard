@@ -5,7 +5,7 @@ import { lazy, Suspense, useMemo, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
-import { PaginationResultLimit } from "../../constants/Constants"
+import { PaginationResultLimitForUser } from "../../constants/Constants"
 import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
 import { useCreateUser } from "../../hooks/useCreateUser"
 import { useAuthStore } from "../../store/store"
@@ -48,7 +48,7 @@ const Users = () => {
   const debouncedQUpdate = useMemo(() => {
     return debounce((value: string | undefined) => {
       setQueryParams((prev) => ({ ...prev, q: value ?? "", currentPage: 1 }))
-    }, 1000)
+    }, 500)
   }, [])
 
   const onFilterChange = (filteredData: FileldData[]) => {
@@ -107,8 +107,8 @@ const Users = () => {
         rowKey={"id"}
         pagination={{
           position: ["bottomRight"],
-          pageSize: PaginationResultLimit,
-          current: queryParams.currentPage,
+          pageSize: PaginationResultLimitForUser,
+          current: data?.data?.currentPage,
           total: data?.data?.count,
           onChange: (page) => {
             setQueryParams((prev) => ({
@@ -116,6 +116,9 @@ const Users = () => {
               currentPage: Number(page),
             }))
           },
+          showTotal: (total: number, range: number[]) =>{
+            return `Showing ${range[0]} - ${range[1]} of ${total} users`
+          }
         }}
         columns={columns}
         dataSource={data?.data?.users}

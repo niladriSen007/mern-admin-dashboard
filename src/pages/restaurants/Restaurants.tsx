@@ -1,23 +1,24 @@
 import Icon, { LoadingOutlined } from "@ant-design/icons"
 import { Alert, Button, Flex, Form, Modal, Space, Spin, Table } from "antd"
+import { debounce } from "lodash"
 import { lazy, Suspense, useMemo, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
-import { useAuthStore } from "../../store/store"
-import { debounce } from "lodash"
 import Vector from "../../components/icons/Vector"
+import { PaginationResultLimitForRestaurant } from "../../constants/Constants"
 import { useAllRestaurantsDataFetch } from "../../hooks/useAllRestaurantsDataFetch"
+import { useCreateRestaurant } from "../../hooks/useCreateRestaurant"
+import { useAuthStore } from "../../store/store"
+import { FileldData } from "../users/types"
 import CreateRestaurantForm from "./_components/forms/CreateRestaurantForm"
 import { columns } from "./utils/Columns"
-import { useCreateRestaurant } from "../../hooks/useCreateRestaurant"
-import { FileldData } from "../users/types"
 const RestaurantFilter = lazy(() => import("./_components/RestaurantFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
 const Restaurants = () => {
   const [queryParams, setQueryParams] = useState({
     currentPage: 1,
-    limit: 6,
+    limit: 3,
     q: "",
   })
   const { user } = useAuthStore()
@@ -43,7 +44,7 @@ const Restaurants = () => {
   const debouncedQUpdate = useMemo(() => {
     return debounce((value: string | undefined) => {
       setQueryParams((prev) => ({ ...prev, q: value ?? "", currentPage: 1 }))
-    }, 1000)
+    }, 500)
   }, [])
 
   const onFilterChange = (filteredData: FileldData[]) => {
@@ -93,12 +94,20 @@ const Restaurants = () => {
       <Table
         rowKey={"id"}
         pagination={{
+          showTotal: (total : number,range: number[])=> `Showing ${range[0]} - ${range[1]} of ${total} restaurants`,
           position: ["bottomRight"],
-          pageSize: 3,
+          pageSize: PaginationResultLimitForRestaurant,
+          total: data?.data?.count,
+          current: data?.data?.currentPage,
+          onChange: (page) => {
+            setQueryParams((prev) => ({ ...prev, currentPage: page }))
+          }
         }}
         columns={columns}
         dataSource={data?.data?.tenants}
+        
       />
+    
 
       <Modal
         centered

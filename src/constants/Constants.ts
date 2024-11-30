@@ -4,4 +4,5 @@ export const Constants = {
   CUSTOMER: "CUSTOMER",
 }
 
-export const PaginationResultLimit = 6
+export const PaginationResultLimitForUser = 6
+export const PaginationResultLimitForRestaurant = 3
