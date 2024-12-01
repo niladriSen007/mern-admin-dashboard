@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { Outlet } from "react-router-dom"
-import { useUserDataFetch } from "../../hooks/useUserDataFetch"
+
 import { useAuthStore } from "../../store/store"
+import { useUserDataFetch } from "../../hooks"
 
 const RootLayout = () => {
   const { setUserData } = useAuthStore()

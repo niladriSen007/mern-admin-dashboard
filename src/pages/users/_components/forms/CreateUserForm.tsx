@@ -1,10 +1,12 @@
 import { Card, Col, Form, Input, Row, Select, Space } from "antd"
-import { useAllRestaurantsDataFetch } from "../../../../hooks/useAllRestaurantsDataFetch"
+
 import { RestaurantDataType } from "../../../restaurants/types"
 import { memo } from "react"
 import { CardStyles } from "../../styles/Users.styles"
+import { useAllRestaurantsDataFetch } from "../../../../hooks"
 
 const CreateUserForm = memo(({isEditing = false} : {isEditing : boolean}) => {
+  const selectedRole = Form.useWatch("role")
   const { data } = useAllRestaurantsDataFetch({
     currentPage: 1,
     limit: 50,
@@ -86,12 +88,12 @@ const CreateUserForm = memo(({isEditing = false} : {isEditing : boolean}) => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={12}>
+         { selectedRole === "MANAGER" && <Col span={12}>
             <Form.Item
               name="tenantId"
               label="Tenant"
-/*               rules={[{ required: true, message: "Please choose a tenant " }]}
- */            >
+              rules={[{ required: true, message: "Please choose a tenant " }]}
+            >
               <Select placeholder="Please choose the tenant">
                 {data?.data?.tenants.map((tenant: RestaurantDataType) => {
                   return (
@@ -102,7 +104,7 @@ const CreateUserForm = memo(({isEditing = false} : {isEditing : boolean}) => {
                 })}
               </Select>
             </Form.Item>
-          </Col>
+          </Col>}
         </Row>
       </Card>
       {/*  <Row gutter={16}>

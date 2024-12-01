@@ -3,9 +3,10 @@ import Chip from "../../components/common/Chip"
 import { Bag } from "../../components/icons/Bag"
 import Bar from "../../components/icons/Bar"
 import OrangeBag from "../../components/icons/OrangeBag"
-import { useCurrentTime } from "../../hooks/useCurrentTime"
+
 import { useAuthStore } from "../../store/store"
 import { TitleStyles, UserNameStyles } from "./styles/Dashboard.styles"
+import { useCurrentTime } from "../../hooks"
 
 const Dashboard = () => {
   const { user } = useAuthStore()

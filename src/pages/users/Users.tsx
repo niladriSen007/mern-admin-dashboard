@@ -10,13 +10,12 @@ import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
 import { PaginationResultLimitForUser } from "../../constants/Constants"
-import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
-import { useCreateUser } from "../../hooks/useCreateUser"
+
 import { useAuthStore } from "../../store/store"
 import { DataType, FileldData } from "./types"
 import { columns } from "./utils/Columns"
-import { useUpdateUser } from "../../hooks/useUpdateUser"
-import { useDeleteUser } from "../../hooks/useDeleteUser"
+import { useAllUsersDataFetch, useCreateUser, useDeleteUser, useUpdateUser } from "../../hooks"
+
 const CreateUserForm = lazy(() => import("./_components/forms/CreateUserForm"))
 const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
@@ -24,10 +23,10 @@ const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 const Users = () => {
   const { user } = useAuthStore()
   const { createUserMutation } = useCreateUser()
-  
+
   const [form] = Form.useForm()
   const [filterForm] = Form.useForm()
-  
+
   const [queryParams, setQueryParams] = useState({
     currentPage: 1,
     limit: 6,
@@ -40,9 +39,9 @@ const Users = () => {
   const [currentEditingUser, setCurrentEditingUser] = useState<DataType | null>(
     null
   )
-  const [deleteUser,setDeleteUser] = useState<DataType | null>(null)
+  const [deleteUser, setDeleteUser] = useState<DataType | null>(null)
   const { updateUserMutation } = useUpdateUser(Number(currentEditingUser?.id))
-  const {deleteUserMutation} = useDeleteUser(Number(deleteUser?.id))
+  const { deleteUserMutation } = useDeleteUser(Number(deleteUser?.id))
   const [isEditing, setIsEditing] = useState(false)
 
   useEffect(() => {
@@ -56,12 +55,11 @@ const Users = () => {
     }
   }, [currentEditingUser, form])
 
-
   useEffect(() => {
     if (deleteUser) {
       deleteUserMutation()
     }
-  }, [deleteUser,deleteUserMutation])
+  }, [deleteUser, deleteUserMutation])
 
   const handleCreateUser = async () => {
     try {
@@ -164,10 +162,10 @@ const Users = () => {
                 <Button type="link">
                   <EditOutlined
                     onClick={() => {
-                      /*                       console.log(record,"record")
-                       */
-                      setIsEditing(true)
                       setCurrentEditingUser(record)
+                      setIsEditing(true)
+                      //console.log(record, "record")
+                      setOpen(true)
                     }}
                     style={{
                       fontSize: "1.1rem",
@@ -181,11 +179,10 @@ const Users = () => {
                   type="link"
                 >
                   <DeleteOutlined
-                  onClick={()=>{
-                    console.log(record,"record in delete")
-                    setDeleteUser(record)
-                    
-                  }}
+                    onClick={() => {
+                      console.log(record, "record in delete")
+                      setDeleteUser(record)
+                    }}
                     style={{
                       fontSize: "1.1rem",
                     }}
@@ -201,12 +198,6 @@ const Users = () => {
         centered={isEditing}
         style={{
           top: isEditing ? "-5%" : "5%",
-        }}
-        onClose={() => {
-          form.resetFields()
-          setCurrentEditingUser(null)
-          setIsEditing(false)
-          setOpen(false)
         }}
         width={"800px"}
         height={"600px"}
@@ -229,7 +220,7 @@ const Users = () => {
           >
             <Button
               onClick={() => {
-                form.resetFields()
+                setCurrentEditingUser(null)
                 setOpen(false)
               }}
             >
@@ -246,7 +237,11 @@ const Users = () => {
         }
         loading={loading}
         open={open}
-        onCancel={() => setOpen(!open)}
+        onCancel={() => {
+          setCurrentEditingUser(null)
+          setIsEditing(false)
+          setOpen(false)
+        }}
       >
         <Form layout="vertical" form={form}>
           <CreateUserForm {...{ isEditing }} />

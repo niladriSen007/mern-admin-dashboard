@@ -1,9 +1,10 @@
 import { BellOutlined } from "@ant-design/icons"
 import { Avatar, Badge, Dropdown, Flex, Layout, Space } from "antd"
-import { useLogout } from "../../../hooks/useLogout"
+
 import { memo } from "react"
 import { useAuthStore } from "../../../store/store"
 import { Constants } from "../../../constants/Constants"
+import { useLogout } from "../../../hooks"
 
 const { Header } = Layout
 const HeaderComponent = memo(

@@ -6,14 +6,13 @@ import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
 import { PaginationResultLimitForRestaurant } from "../../constants/Constants"
-import { useAllRestaurantsDataFetch } from "../../hooks/useAllRestaurantsDataFetch"
-import { useCreateRestaurant } from "../../hooks/useCreateRestaurant"
+
 import { useAuthStore } from "../../store/store"
 import { FileldData, TenantDataType } from "../users/types"
 import CreateRestaurantForm from "./_components/forms/CreateRestaurantForm"
 import { columns } from "./utils/Columns"
-import { useUpdateTenant } from "../../hooks/useUpdateTenant"
-import { useDeleteTenant } from "../../hooks/useDeleteTenant"
+import { useAllRestaurantsDataFetch, useCreateRestaurant, useDeleteTenant, useUpdateTenant } from "../../hooks"
+
 const RestaurantFilter = lazy(() => import("./_components/RestaurantFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
@@ -108,6 +107,9 @@ const Restaurants = () => {
           <Button
             type="primary"
             onClick={() => {
+              setIsEditing(false)
+              setCurrentEditingTenant(null)
+              form.resetFields()
               setLoading(true)
               setOpen(true)
               setTimeout(() => {
@@ -128,8 +130,9 @@ const Restaurants = () => {
           total: data?.data?.count,
           current: data?.data?.currentPage,
           onChange: (page) => {
-            setQueryParams((prev) => ({ ...prev, currentPage: page }))
+            setQueryParams((prev) => ({ ...prev, currentPage: Number(page) }))
           }
+          
         }}
         columns={[
           ...columns!,
@@ -141,10 +144,10 @@ const Restaurants = () => {
                 <Button type="link">
                   <EditOutlined
                     onClick={() => {
-                      /*                       console.log(record,"record")
-                       */
-                      setIsEditing(true)
                       setCurrentEditingTenant(record)
+                      setIsEditing(true)
+                      //console.log(record, "record")
+                      setOpen(true)
                     }}
                     style={{
                       fontSize: "1.1rem",
@@ -188,7 +191,7 @@ const Restaurants = () => {
               fontSize: "20px",
             }}
           >
-            Restaurant form
+               {isEditing ? "Edit" : "Create"} Restaurant form
           </Space>
         }
         footer={
@@ -200,7 +203,7 @@ const Restaurants = () => {
           >
             <Button
               onClick={() => {
-                form.resetFields()
+                setCurrentEditingTenant(null)
                 setOpen(false)
               }}
             >
@@ -217,7 +220,11 @@ const Restaurants = () => {
         }
         loading={loading}
         open={open}
-        onCancel={() => setOpen(!open)}
+        onCancel={() => {
+          setCurrentEditingTenant(null)
+          setIsEditing(false)
+          setOpen(false)
+        }}
       >
         <Form layout="vertical" form={form}>
           <CreateRestaurantForm />

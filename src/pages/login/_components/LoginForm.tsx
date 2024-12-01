@@ -2,9 +2,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons"
 import { useMutation } from "@tanstack/react-query"
 import { Alert, Button, Checkbox, Flex, Form, Input, Typography } from "antd"
 import { memo } from "react"
-import { useLogout } from "../../../hooks/useLogout"
-import { usePermission } from "../../../hooks/usePermission"
-import { useUserDataFetch } from "../../../hooks/useUserDataFetch"
+
 import { loginUser } from "../../../http/apiCalls"
 import { useAuthStore } from "../../../store/store"
 import {
@@ -15,6 +13,7 @@ import {
   LinkStyles,
 } from "../styles/Login.styles"
 import { LoginUserData } from "../types"
+import { useLogout, usePermission, useUserDataFetch } from "../../../hooks"
 
 const LoginForm = memo(() => {
   

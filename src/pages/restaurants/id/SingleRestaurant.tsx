@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
-import { useSingleRestaurantDataFetch } from "../../../hooks/useSingleRestaurantDataFetch"
+
 import Diagram from "./_components/Diagram"
+import { useSingleRestaurantDataFetch } from "../../../hooks"
 
 const SingleRestaurant = () => {
   const data = useParams<{ id: string }>()
