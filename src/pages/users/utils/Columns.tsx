@@ -1,7 +1,7 @@
 import { Image, Space, TableProps } from "antd"
-import { DataType } from "../types"
-import { Link } from "react-router-dom"
 import dayjs from "dayjs"
+import { Link } from "react-router-dom"
+import { DataType } from "../types"
 
 export const columns: TableProps<DataType>["columns"] = [
   {
@@ -93,7 +93,13 @@ export const columns: TableProps<DataType>["columns"] = [
     key: "tenant",
     render: (_, record) => (
       <Space>
-        {record?.tenant ? <Link to={`/restaurants/${record?.tenant?.id}`}>{record?.tenant?.name}</Link> : "N/A"}
+        {record?.tenant ? (
+          <Link to={`/restaurants/${record?.tenant?.id}`}>
+            {record?.tenant?.name}
+          </Link>
+        ) : (
+          "N/A"
+        )}
       </Space>
     ),
   },
@@ -101,12 +107,16 @@ export const columns: TableProps<DataType>["columns"] = [
     title: "Created at",
     key: "createdAt",
     dataIndex: "createdAt",
-    render: (_,record) => {
-      return(
+    render: (_, record) => {
+      return (
         <Space size="middle">
-          <span>{dayjs(record?.createdAt ?? new Date()).format("DD MMM YYYY")}</span>
+          <span>
+            {dayjs(record?.createdAt ?? new Date()).format("DD MMM YYYY")}
+          </span>
         </Space>
       )
     },
   },
+
+  
 ]

@@ -1,7 +1,11 @@
-import Icon, { LoadingOutlined } from "@ant-design/icons"
+import Icon, {
+  DeleteOutlined,
+  EditOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons"
 import { Alert, Button, Flex, Form, Modal, Space, Spin, Table } from "antd"
 import { debounce } from "lodash"
-import { lazy, Suspense, useMemo, useState } from "react"
+import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
@@ -9,8 +13,10 @@ import { PaginationResultLimitForUser } from "../../constants/Constants"
 import { useAllUsersDataFetch } from "../../hooks/useAllUsersDataFetch"
 import { useCreateUser } from "../../hooks/useCreateUser"
 import { useAuthStore } from "../../store/store"
-import { FileldData } from "./types"
+import { DataType, FileldData } from "./types"
 import { columns } from "./utils/Columns"
+import { useUpdateUser } from "../../hooks/useUpdateUser"
+import { useDeleteUser } from "../../hooks/useDeleteUser"
 const CreateUserForm = lazy(() => import("./_components/forms/CreateUserForm"))
 const UserFilter = lazy(() => import("./_components/UserFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
@@ -18,7 +24,7 @@ const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 const Users = () => {
   const { user } = useAuthStore()
   const { createUserMutation } = useCreateUser()
-
+  
   const [form] = Form.useForm()
   const [filterForm] = Form.useForm()
   
@@ -31,12 +37,37 @@ const Users = () => {
   const { data, isFetching, error } = useAllUsersDataFetch(queryParams)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [currentEditingUser, setCurrentEditingUser] = useState<DataType | null>(
+    null
+  )
+  const [deleteUser,setDeleteUser] = useState<DataType | null>(null)
+  const { updateUserMutation } = useUpdateUser(Number(currentEditingUser?.id))
+  const {deleteUserMutation} = useDeleteUser(Number(deleteUser?.id))
+  const [isEditing, setIsEditing] = useState(false)
 
+  useEffect(() => {
+    if (currentEditingUser) {
+      form.setFieldsValue({
+        ...currentEditingUser,
+        role: currentEditingUser?.roles,
+        tenantId: currentEditingUser?.tenant?.id,
+      })
+      setOpen(true)
+    }
+  }, [currentEditingUser, form])
+
+
+  useEffect(() => {
+    if (deleteUser) {
+      deleteUserMutation()
+    }
+  }, [deleteUser,deleteUserMutation])
 
   const handleCreateUser = async () => {
     try {
       await form.validateFields()
-      createUserMutation(form.getFieldsValue())
+      if (isEditing) updateUserMutation(form.getFieldsValue())
+      else createUserMutation(form.getFieldsValue())
     } catch (error: unknown) {
       throw new Error(error as string)
     } finally {
@@ -92,6 +123,9 @@ const Users = () => {
           <Button
             type="primary"
             onClick={() => {
+              setIsEditing(false)
+              setCurrentEditingUser(null)
+              form.resetFields()
               setLoading(true)
               setOpen(true)
               setTimeout(() => {
@@ -116,16 +150,63 @@ const Users = () => {
               currentPage: Number(page),
             }))
           },
-          showTotal: (total: number, range: number[]) =>{
+          showTotal: (total: number, range: number[]) => {
             return `Showing ${range[0]} - ${range[1]} of ${total} users`
-          }
+          },
         }}
-        columns={columns}
+        columns={[
+          ...columns!,
+          {
+            title: "Actions",
+            key: "actions",
+            render: (_, record) => (
+              <Space size="small">
+                <Button type="link">
+                  <EditOutlined
+                    onClick={() => {
+                      /*                       console.log(record,"record")
+                       */
+                      setIsEditing(true)
+                      setCurrentEditingUser(record)
+                    }}
+                    style={{
+                      fontSize: "1.1rem",
+                    }}
+                  />{" "}
+                </Button>
+                <Button
+                  style={{
+                    color: "red",
+                  }}
+                  type="link"
+                >
+                  <DeleteOutlined
+                  onClick={()=>{
+                    console.log(record,"record in delete")
+                    setDeleteUser(record)
+                    
+                  }}
+                    style={{
+                      fontSize: "1.1rem",
+                    }}
+                  />{" "}
+                </Button>
+              </Space>
+            ),
+          },
+        ]}
         dataSource={data?.data?.users}
       />
       <Modal
+        centered={isEditing}
         style={{
-          top: "5%",
+          top: isEditing ? "-5%" : "5%",
+        }}
+        onClose={() => {
+          form.resetFields()
+          setCurrentEditingUser(null)
+          setIsEditing(false)
+          setOpen(false)
         }}
         width={"800px"}
         height={"600px"}
@@ -136,7 +217,7 @@ const Users = () => {
               fontSize: "20px",
             }}
           >
-            User form
+            {isEditing ? "Edit" : "Create"} User form
           </Space>
         }
         footer={
@@ -168,7 +249,7 @@ const Users = () => {
         onCancel={() => setOpen(!open)}
       >
         <Form layout="vertical" form={form}>
-          <CreateUserForm />
+          <CreateUserForm {...{ isEditing }} />
         </Form>
       </Modal>
     </Suspense>

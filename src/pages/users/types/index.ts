@@ -11,6 +11,12 @@ export interface DataType {
   createdAt: string
 }
 
+export interface TenantDataType{
+  id?: string
+  name: string
+  address: string
+}
+
 
 export interface FileldData{
   name: string[]

@@ -11,3 +11,11 @@ export interface CreateRestaurantDataProps{
   name : string
   address : string
 }
+
+export interface UpdateUserDataProps{
+  email: string
+  tenantId?: number | null
+  role: string
+  firstName: string
+  lastName: string
+}

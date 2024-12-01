@@ -1,7 +1,7 @@
-import Icon, { LoadingOutlined } from "@ant-design/icons"
+import Icon, { DeleteOutlined, EditOutlined, LoadingOutlined } from "@ant-design/icons"
 import { Alert, Button, Flex, Form, Modal, Space, Spin, Table } from "antd"
 import { debounce } from "lodash"
-import { lazy, Suspense, useMemo, useState } from "react"
+import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { Navigate } from "react-router-dom"
 import Fallback from "../../components/common/Fallback"
 import Vector from "../../components/icons/Vector"
@@ -9,9 +9,11 @@ import { PaginationResultLimitForRestaurant } from "../../constants/Constants"
 import { useAllRestaurantsDataFetch } from "../../hooks/useAllRestaurantsDataFetch"
 import { useCreateRestaurant } from "../../hooks/useCreateRestaurant"
 import { useAuthStore } from "../../store/store"
-import { FileldData } from "../users/types"
+import { FileldData, TenantDataType } from "../users/types"
 import CreateRestaurantForm from "./_components/forms/CreateRestaurantForm"
 import { columns } from "./utils/Columns"
+import { useUpdateTenant } from "../../hooks/useUpdateTenant"
+import { useDeleteTenant } from "../../hooks/useDeleteTenant"
 const RestaurantFilter = lazy(() => import("./_components/RestaurantFilter"))
 const BreadCrumb = lazy(() => import("./_components/BreadCrumb"))
 
@@ -28,11 +30,37 @@ const Restaurants = () => {
   const [form] = Form.useForm()
   const [filterForm] = Form.useForm()
   const { createRestaurantMutation } = useCreateRestaurant()
+  const [isEditing, setIsEditing] = useState(false)
+  const [currentEditingTenant, setCurrentEditingTenant] = useState<TenantDataType | null>(
+    null
+  )
+  const [deleteTenant,setDeleteTenant] = useState<TenantDataType | null>(null)
+  const { updateTenantMutation } = useUpdateTenant(Number(currentEditingTenant?.id))
+  const {deleteTenantMutation} = useDeleteTenant(Number(deleteTenant?.id))
+
+
+  useEffect(() => {
+    if (currentEditingTenant) {
+      form.setFieldsValue({
+        ...currentEditingTenant,
+      })
+      setOpen(true)
+    }
+  }, [currentEditingTenant, form])
+
+
+  useEffect(() => {
+    if (deleteTenant) {
+      deleteTenantMutation()
+    }
+  }, [deleteTenant,deleteTenantMutation])
+
 
   const handleCreateRestaurant = async () => {
     try {
       await form.validateFields()
-      createRestaurantMutation(form.getFieldsValue())
+      if(isEditing) updateTenantMutation(form.getFieldsValue())
+      else createRestaurantMutation(form.getFieldsValue())
     } catch (error: unknown) {
       throw new Error(error as string)
     } finally {
@@ -103,7 +131,47 @@ const Restaurants = () => {
             setQueryParams((prev) => ({ ...prev, currentPage: page }))
           }
         }}
-        columns={columns}
+        columns={[
+          ...columns!,
+          {
+            title: "Actions",
+            key: "actions",
+            render: (_, record) => (
+              <Space size="small">
+                <Button type="link">
+                  <EditOutlined
+                    onClick={() => {
+                      /*                       console.log(record,"record")
+                       */
+                      setIsEditing(true)
+                      setCurrentEditingTenant(record)
+                    }}
+                    style={{
+                      fontSize: "1.1rem",
+                    }}
+                  />{" "}
+                </Button>
+                <Button
+                  style={{
+                    color: "red",
+                  }}
+                  type="link"
+                >
+                  <DeleteOutlined
+                  onClick={()=>{
+                    console.log(record,"record in delete")
+                    setDeleteTenant(record)
+                    
+                  }}
+                    style={{
+                      fontSize: "1.1rem",
+                    }}
+                  />{" "}
+                </Button>
+              </Space>
+            ),
+          },
+        ]}
         dataSource={data?.data?.tenants}
         
       />

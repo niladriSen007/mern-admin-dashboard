@@ -4,7 +4,7 @@ import { RestaurantDataType } from "../../../restaurants/types"
 import { memo } from "react"
 import { CardStyles } from "../../styles/Users.styles"
 
-const CreateUserForm = memo(() => {
+const CreateUserForm = memo(({isEditing = false} : {isEditing : boolean}) => {
   const { data } = useAllRestaurantsDataFetch({
     currentPage: 1,
     limit: 50,
@@ -121,7 +121,7 @@ const CreateUserForm = memo(() => {
             </Form.Item>
           </Col>
         </Row> */}
-      <Card style={CardStyles} title={<Space>Security info</Space>}>
+      {!isEditing && <Card style={CardStyles} title={<Space>Security info</Space>}>
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
@@ -138,7 +138,7 @@ const CreateUserForm = memo(() => {
             </Form.Item>
           </Col>
         </Row>
-      </Card>
+      </Card>}
     </Space>
   )
 })

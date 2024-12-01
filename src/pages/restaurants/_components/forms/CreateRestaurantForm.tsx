@@ -39,6 +39,7 @@ const CreateRestaurantForm = () => {
             label="Address"
             rules={[
               { required: true, message: "Please enter restaurant address" },
+              {min: 10, message: "Address should be greater than 10 characters"}
             ]}
           >
             <Input

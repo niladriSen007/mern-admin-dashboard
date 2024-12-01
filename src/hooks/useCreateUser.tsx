@@ -3,23 +3,25 @@ import { createUser, registerAdmin } from "../http/apiCalls"
 import { CreateUserDataProps } from "./types"
 
 export const useCreateUser = () => {
-
   const queryClient = useQueryClient()
-  const {mutate : createUserMutation} = useMutation({
+  const { mutate: createUserMutation } = useMutation({
     mutationKey: ["createUser"],
-    mutationFn: async(userData:CreateUserDataProps) => userData?.role === "ADMIN" ? await registerAdmin(userData) : await createUser(userData),
-    onSuccess:() =>{
+    mutationFn: async (userData: CreateUserDataProps) =>
+      userData?.role === "ADMIN"
+        ? await registerAdmin(userData)
+        : await createUser(userData),
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["allUsers"],
       })
       console.log("User created successfully")
     },
-    onError:(error) =>{
+    onError: (error) => {
       console.error(error)
-    }
+    },
   })
 
   return {
-    createUserMutation
+    createUserMutation,
   }
 }
