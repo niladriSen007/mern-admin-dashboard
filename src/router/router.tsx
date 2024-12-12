@@ -1,10 +1,12 @@
 
+
 import Restaurants from "../pages/restaurants/Restaurants"
 import SingleRestaurant from "../pages/restaurants/id/SingleRestaurant"
 import {
   AuthLayout,
   Dashboard,
   LoginPage,
+  Products,
   RootLayout,
   UnauthLayout,
   Users,
@@ -21,6 +23,7 @@ export const router = (
           <Route path="users" element={<Users />} />
           <Route path="restaurants/:id" element={<SingleRestaurant />} />
           <Route path="restaurants" element={<Restaurants />} />
+          <Route path="products" element={<Products />} />
         </Route>
         <Route path="unauth" element={<UnauthLayout />}>
           <Route path="login" element={<LoginPage />} />

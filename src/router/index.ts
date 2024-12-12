@@ -9,3 +9,4 @@ export const UnauthLayout = lazy(
 export const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"))
 export const Users = lazy(() => import("../pages/users/Users"))
 export const RootLayout = lazy(() => import("../layouts/root/RootLayout"))
+export const Products = lazy(() => import("../pages/products/Products"))
