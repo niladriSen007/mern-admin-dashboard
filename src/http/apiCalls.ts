@@ -4,6 +4,7 @@ import { TenantDataType } from "../pages/users/types"
 import { api } from "./httpClient"
 
 export const AUTH_URL= '/api/v1/auth'
+export const CATALOGUE_URL= '/api/v1/catalogue'
 
 export const loginUser = (userData: LoginUserData) => {
   return api.post(`${AUTH_URL}/auth/login`, userData)
@@ -65,4 +66,9 @@ export const updateTenant = (tenantData: TenantDataType,tenantId : number) => {
 
 export const deleteTenant = (tenantId: number) => {
   return api.delete(`${AUTH_URL}/tenants/${tenantId}`)
+}
+
+
+export const getAllCategoreis = () => {
+  return api.get(`${CATALOGUE_URL}/category`)
 }
