@@ -20,3 +20,20 @@ export interface Category{
   priceConfiguration: PriceConfiguration;
   attributes: Attributes[];
 }
+
+export interface Product {
+  _id: string;
+  name: string;
+  imageUrl: string;
+  description: string;
+  category: Category;
+  priceConfiguration: PriceConfiguration;
+  attributes: Attributes[];
+  isPublished: boolean;
+  createdAt: string;
+}
+
+export interface FileldData{
+  name: string[]
+  value?: string
+}

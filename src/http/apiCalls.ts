@@ -72,3 +72,16 @@ export const deleteTenant = (tenantId: number) => {
 export const getAllCategoreis = () => {
   return api.get(`${CATALOGUE_URL}/category`)
 }
+
+export const getAllProducts = (
+  currentPage: number,
+  limit: number,
+  q: string,
+  tenantId: string,
+  categoryId: string,
+  isPublished: boolean,
+) => {
+  return api.get(
+    `${CATALOGUE_URL}/products?page=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}&tenantId=${tenantId}&categoryId=${categoryId}&isPublished=${isPublished}`
+  )
+}

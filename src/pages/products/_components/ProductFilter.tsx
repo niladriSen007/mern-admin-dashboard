@@ -17,6 +17,7 @@ interface ProductFilterProps {
   children: ReactNode
 }
 const ProductFilter = memo(({ children }: ProductFilterProps) => {
+  
   const { data: categories } = useCategoriesFetch()
   const {data: restaurants} = useAllRestaurantsDataFetch({
     currentPage: 1,
@@ -42,7 +43,7 @@ const ProductFilter = memo(({ children }: ProductFilterProps) => {
               </Form.Item>
             </Col>
             <Col>
-              <Form.Item name="category">
+              <Form.Item name="categoryId">
                 <Select
                   allowClear
                   style={{ width: 160 }}
@@ -57,7 +58,7 @@ const ProductFilter = memo(({ children }: ProductFilterProps) => {
               </Form.Item>
             </Col>
             <Col>
-              <Form.Item name="tenant">
+              <Form.Item name="tenantId">
                 <Select
                   allowClear
                   style={{ width: 180 }}

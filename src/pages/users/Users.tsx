@@ -86,7 +86,7 @@ const Users = () => {
         [field.name[0]]: field.value,
       }))
       .reduce((acc, curr) => ({ ...acc, ...curr }), {})
-    // console.log(changedFields)
+     console.log(changedFields,"cf")
 
     if ("q" in changedFields) {
       debouncedQUpdate(changedFields.q)
