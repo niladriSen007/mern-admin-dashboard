@@ -6,3 +6,4 @@ export const Constants = {
 
 export const PaginationResultLimitForUser = 6
 export const PaginationResultLimitForRestaurant = 3
+export const PaginationResultLimitForProduct = 6

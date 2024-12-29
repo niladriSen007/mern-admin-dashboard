@@ -19,7 +19,7 @@ const RestaurantFilter = memo(({ children }: RestaurantFilterProps) => {
           <Row justify={"space-between"} align={"middle"} gutter={16}>
             <Col>
               <Form.Item name={"q"}>
-                <Input.Search allowClear placeholder="Search Restaurant" />
+                <Input.Search  placeholder="Search Restaurant" />
               </Form.Item>
             </Col>
           </Row>

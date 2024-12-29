@@ -3,8 +3,8 @@ import { LoginUserData } from "../pages/login/types"
 import { TenantDataType } from "../pages/users/types"
 import { api } from "./httpClient"
 
-export const AUTH_URL= '/api/v1/auth'
-export const CATALOGUE_URL= '/api/v1/catalogue'
+export const AUTH_URL = '/api/v1/auth'
+export const CATALOGUE_URL = '/api/v1/catalogue'
 
 export const loginUser = (userData: LoginUserData) => {
   return api.post(`${AUTH_URL}/auth/login`, userData)
@@ -29,7 +29,7 @@ export const getAllUsers = (
   )
 }
 
-export const getAllTenants = ( currentPage: number,
+export const getAllTenants = (currentPage: number,
   limit: number,
   q: string,) => {
   return api.get(`${AUTH_URL}/tenants?currentPage=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}`)
@@ -51,7 +51,7 @@ export const registerAdmin = (userData: CreateUserDataProps) => {
   return api.post(`${AUTH_URL}/auth/register`, userData)
 }
 
-export const updateUser = (userData: UpdateUserDataProps,userId : number) => {
+export const updateUser = (userData: UpdateUserDataProps, userId: number) => {
   return api.patch(`${AUTH_URL}/users/${userId}`, userData)
 }
 
@@ -60,7 +60,7 @@ export const deleteUser = (userId: number) => {
 }
 
 
-export const updateTenant = (tenantData: TenantDataType,tenantId : number) => {
+export const updateTenant = (tenantData: TenantDataType, tenantId: number) => {
   return api.patch(`${AUTH_URL}/tenants/${tenantId}`, tenantData)
 }
 
@@ -79,9 +79,11 @@ export const getAllProducts = (
   q: string,
   tenantId: string,
   categoryId: string,
-  isPublished: boolean,
+  isPublished: boolean | undefined,
 ) => {
+  console.log(limit, "limit")
   return api.get(
-    `${CATALOGUE_URL}/products?page=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}&tenantId=${tenantId}&categoryId=${categoryId}&isPublished=${isPublished}`
+    `${CATALOGUE_URL}/products?page=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}&tenantId=${tenantId}&categoryId=${categoryId}
+    `
   )
 }

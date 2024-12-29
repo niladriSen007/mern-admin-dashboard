@@ -11,7 +11,7 @@ export const columns: TableProps<Product>["columns"] = [
       return (
         <div>
           <Space>
-            <Image width={60} src={record.imageUrl} preview={false} />
+            <Image width={60} src={record.imageUrl} />
             <Typography.Text>{record.name}</Typography.Text>
           </Space>
         </div>

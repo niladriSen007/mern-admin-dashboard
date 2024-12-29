@@ -20,12 +20,12 @@ const UserFilter = memo(({ children }: UserFilterProps) => {
           <Row justify={"space-between"} align={"middle"} gutter={16}>
             <Col>
               <Form.Item name="q">
-                <Input.Search allowClear placeholder="Search user" />
+                <Input.Search  placeholder="Search user" />
               </Form.Item>
             </Col>
             <Col>
               <Form.Item name="role">
-                <Select allowClear style={{ width: 120 }}>
+                <Select  style={{ width: 120 }}>
                   {roleFilter.map((role) => (
                     <Select.Option key={role?.key} value={role?.value}>
                       {role?.label}
@@ -36,7 +36,7 @@ const UserFilter = memo(({ children }: UserFilterProps) => {
             </Col>
             {/*  <Col>
               <Select
-                allowClear
+                
                 defaultValue="all"
                 style={{ width: 120 }}
                 onChange={(selectedValue: string) =>

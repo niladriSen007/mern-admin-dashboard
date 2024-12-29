@@ -7,7 +7,7 @@ export const useAllProductsDataFetch = (queryParams: {
   q: string,
   tenantId: string,
   categoryId: string,
-  isPublished: boolean,
+  isPublished: boolean | undefined,
 }) => {
   const {
     refetch: fetchAllProductData,

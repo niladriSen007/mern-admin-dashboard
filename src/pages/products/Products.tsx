@@ -1,17 +1,17 @@
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
+import { Button, Flex, Form, Space, Table } from "antd"
+import { debounce } from "lodash"
 import { Suspense, useMemo, useState } from "react"
 import Fallback from "../../components/common/Fallback"
-import BreadCrumb from "./_components/BreadCrumb"
-import { Button, Flex, Form, Space, Table } from "antd"
-import ProductFilter from "./_components/ProductFilter"
-import { columns } from "./utils/Columns"
-import Icon, {
-  DeleteOutlined,
-  EditOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons"
-import { FileldData, Product } from "./types"
-import { debounce } from "lodash"
 import { useAllProductsDataFetch } from "../../hooks/useAllProductsDataFetch"
+import BreadCrumb from "./_components/BreadCrumb"
+import ProductFilter from "./_components/ProductFilter"
+import { FileldData, Product } from "./types"
+import { columns } from "./utils/Columns"
+import {
+  PaginationResultLimitForProduct,
+  PaginationResultLimitForUser,
+} from "../../constants/Constants"
 const Products = () => {
   const [filterForm] = Form.useForm()
   const [form] = Form.useForm()
@@ -23,39 +23,39 @@ const Products = () => {
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null)
   const [queryParams, setQueryParams] = useState({
     currentPage: 1,
-    limit: 6,
+    limit: PaginationResultLimitForProduct,
     q: "",
     tenantId: "",
     categoryId: "",
-    isPublished: true,
+    isPublished: undefined,
   })
 
-  const {data : products} = useAllProductsDataFetch(queryParams)
-/*   console.log(products?.data?.data?.data, "data") */
-    const debouncedQUpdate = useMemo(() => {
-      return debounce((value: string | undefined) => {
-        setQueryParams((prev) => ({ ...prev, q: value ?? "", currentPage: 1 }))
-      }, 500)
-    }, [])
+  const { data: products } = useAllProductsDataFetch(queryParams)
+  /*    console.log(products, "data") */
+  const debouncedQUpdate = useMemo(() => {
+    return debounce((value: string | undefined) => {
+      setQueryParams((prev) => ({ ...prev, q: value ?? "", currentPage: 1 }))
+    }, 500)
+  }, [])
 
-    const onFilterChange = (filteredData: FileldData[]) => {
-      const changedFields = filteredData
-        ?.map((field) => ({
-          [field.name[0]]: field.value,
-        }))
-        .reduce((acc, curr) => ({ ...acc, ...curr }), {})
-       console.log(changedFields,"cf")
-  
-      if ("q" in changedFields) {
-        debouncedQUpdate(changedFields.q)
-      } else {
-        setQueryParams((prev) => ({
-          ...prev,
-          ...changedFields,
-          currentPage: 1,
-        }))
-      }
+  const onFilterChange = (filteredData: FileldData[]) => {
+    const changedFields = filteredData
+      ?.map((field) => ({
+        [field.name[0]]: field.value,
+      }))
+      .reduce((acc, curr) => ({ ...acc, ...curr }), {})
+    console.log(changedFields, "cf")
+
+    if ("q" in changedFields) {
+      debouncedQUpdate(changedFields.q)
+    } else {
+      setQueryParams((prev) => ({
+        ...prev,
+        ...changedFields,
+        currentPage: 1,
+      }))
     }
+  }
 
   return (
     <Suspense fallback={<Fallback label={"Products data"} />}>
@@ -71,10 +71,7 @@ const Products = () => {
           />
         )} */}
       </Flex>
-      <Form
-        form={filterForm}
-              onFieldsChange={onFilterChange}
-      >
+      <Form form={filterForm} onFieldsChange={onFilterChange}>
         <ProductFilter>
           <Button
             type="primary"
@@ -89,7 +86,7 @@ const Products = () => {
               }, 2000)
             }}
           >
-            + Create User
+            + Create Product
           </Button>
         </ProductFilter>
       </Form>
@@ -97,17 +94,17 @@ const Products = () => {
         rowKey={"id"}
         pagination={{
           position: ["bottomRight"],
-          /*  pageSize: PaginationResultLimitForUser,
-          current: data?.data?.currentPage,
-          total: data?.data?.count,
+          pageSize: PaginationResultLimitForProduct,
+          current: products?.data?.data?.page,
+          total: products?.data?.data?.total,
           onChange: (page) => {
             setQueryParams((prev) => ({
               ...prev,
               currentPage: Number(page),
             }))
-          }, */
+          },
           showTotal: (total: number, range: number[]) => {
-            return `Showing ${range[0]} - ${range[1]} of ${total} users`
+            return `Showing ${range[0]} - ${range[1]} of ${total} products`
           },
         }}
         columns={[
@@ -150,8 +147,7 @@ const Products = () => {
             ),
           },
         ]}
-                dataSource={products?.data?.data?.data}
-        
+        dataSource={products?.data?.data?.data}
       />
     </Suspense>
   )

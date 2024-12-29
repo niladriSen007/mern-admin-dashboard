@@ -12,19 +12,20 @@ import { memo, ReactNode } from "react"
 import { useAllRestaurantsDataFetch } from "../../../hooks"
 import { useCategoriesFetch } from "../../../hooks/useCategoriesFetch"
 import { Category } from "../types"
+import { useAuthStore } from "../../../store/store"
 
 interface ProductFilterProps {
   children: ReactNode
 }
 const ProductFilter = memo(({ children }: ProductFilterProps) => {
-  
+    const { user } = useAuthStore()
   const { data: categories } = useCategoriesFetch()
   const {data: restaurants} = useAllRestaurantsDataFetch({
     currentPage: 1,
     limit: 20,
     q: "",
   })
-  console.log(categories?.data?.data)
+  console.log(restaurants?.data?.tenants)
 
   return (
     <Card
@@ -39,13 +40,13 @@ const ProductFilter = memo(({ children }: ProductFilterProps) => {
           <Row gutter={20}>
             <Col span={6}>
               <Form.Item name="q">
-                <Input.Search allowClear placeholder="Search user" />
+                <Input.Search  placeholder="Search user" />
               </Form.Item>
             </Col>
             <Col>
               <Form.Item name="categoryId">
                 <Select
-                  allowClear
+                  
                   style={{ width: 160 }}
                   placeholder="Select category"
                 >
@@ -57,10 +58,10 @@ const ProductFilter = memo(({ children }: ProductFilterProps) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col>
+           { user?.roles !== 'MANAGER' && <Col>
               <Form.Item name="tenantId">
                 <Select
-                  allowClear
+                  
                   style={{ width: 180 }}
                   placeholder="Select tenant"
                 >
@@ -71,7 +72,7 @@ const ProductFilter = memo(({ children }: ProductFilterProps) => {
                   ))}
                 </Select>
               </Form.Item>
-            </Col>
+            </Col>}
             <Col span={8}>
               <Space size="middle">
                 {" "}

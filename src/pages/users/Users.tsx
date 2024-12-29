@@ -34,6 +34,7 @@ const Users = () => {
     role: "",
   })
   const { data, isFetching, error } = useAllUsersDataFetch(queryParams)
+  console.log(data, "data")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [currentEditingUser, setCurrentEditingUser] = useState<DataType | null>(
