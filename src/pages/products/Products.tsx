@@ -1,5 +1,5 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
-import { Button, Flex, Form, Space, Table } from "antd"
+import Icon, { DeleteOutlined, EditOutlined } from "@ant-design/icons"
+import { Button, Flex, Form, Modal, Space, Table } from "antd"
 import { debounce } from "lodash"
 import { Suspense, useMemo, useState } from "react"
 import Fallback from "../../components/common/Fallback"
@@ -12,6 +12,8 @@ import {
   PaginationResultLimitForProduct,
   PaginationResultLimitForUser,
 } from "../../constants/Constants"
+import Vector from "../../components/icons/Vector"
+import CreateProductForm from "./_components/forms/CreateProductForm"
 const Products = () => {
   const [filterForm] = Form.useForm()
   const [form] = Form.useForm()
@@ -29,6 +31,20 @@ const Products = () => {
     categoryId: "",
     isPublished: undefined,
   })
+
+
+  const handleCreateProduct = async () => {
+    try {
+      await form.validateFields()
+    /*   if (isEditing) updateUserMutation(form.getFieldsValue())
+      else createUserMutation(form.getFieldsValue()) */
+    } catch (error: unknown) {
+      throw new Error(error as string)
+    } finally {
+      form.resetFields()
+      setOpen(!open)
+    }
+  }
 
   const { data: products } = useAllProductsDataFetch(queryParams)
   /*    console.log(products, "data") */
@@ -149,6 +165,59 @@ const Products = () => {
         ]}
         dataSource={products?.data?.data?.data}
       />
+       <Modal
+        centered={isEditing}
+        style={{
+          top: isEditing ? "-5%" : "5%",
+        }}
+        width={"800px"}
+        height={"600px"}
+        title={
+          <Space
+            style={{
+              margin: "16px 0",
+              fontSize: "20px",
+            }}
+          >
+            {isEditing ? "Edit" : "Create"} Product form
+          </Space>
+        }
+        footer={
+          <Space
+            align="center"
+            style={{
+              marginTop: "16px",
+            }}
+          >
+            <Button
+              onClick={() => {
+                setCurrentEditingProduct(null)
+                setOpen(false)
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              icon={<Icon size={32} component={Vector} />}
+              type="primary"
+              onClick={handleCreateProduct}
+            >
+              Save
+            </Button>
+          </Space>
+        }
+        loading={loading}
+        open={open}
+        onCancel={() => {
+          setCurrentEditingProduct(null)
+          setIsEditing(false)
+          setOpen(false)
+        }}
+      >
+        <Form layout="vertical" form={form}>
+          <CreateProductForm {...{ isEditing }} />
+        </Form>
+      </Modal>
     </Suspense>
   )
 }
