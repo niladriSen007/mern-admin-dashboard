@@ -34,46 +34,50 @@ const CreateProductForm = memo(
                 fontSize: "16px",
               }}
             >
-              Basic info
+              Product info
             </Space>
           }
         >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                name="firstName"
-                label="First name"
-                rules={[{ required: true, message: "Please enter user name" }]}
+                name="name"
+                label="Name"
+                rules={[{ required: true, message: "Please enter product name" }]}
               >
-                <Input placeholder="Please enter you first name" />
+                <Input placeholder="Please enter product name" />
               </Form.Item>
             </Col>
             <Col span={12}>
+                <Form.Item
+                  name="categoryId"
+                  label="Category"
+                  rules={[
+                    { required: true, message: "Please choose a category " },
+                  ]}
+                >
+                  <Select placeholder="Please choose the category">
+                    {categories?.data?.data.map((cat: Category) => {
+                      return (
+                          <Select.Option key={cat?._id} value={cat?._id}>
+                          {cat?.name}
+                        </Select.Option>
+                      )
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            <Col span={12}>
               <Form.Item
-                name="lastName"
-                label="Last name"
+                name="description"
+                label="Description"
                 rules={[
-                  { required: true, message: "Please enter your last name" },
+                  { required: true, message: "Please enter product description" },
                 ]}
               >
                 <Input
                   style={{ width: "100%" }}
-                  placeholder="Please enter your last name"
-                />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="email"
-                label="Email"
-                rules={[
-                  { required: true, message: "Please enter your email" },
-                  { type: "email", message: "Please enter a valid email" },
-                ]}
-              >
-                <Input
-                  style={{ width: "100%" }}
-                  placeholder="Please enter your email"
+                  placeholder="Please enter product description"
                 />
               </Form.Item>
             </Col>
@@ -97,25 +101,7 @@ const CreateProductForm = memo(
               </Form.Item>
             </Col> */}
              
-              <Col span={12}>
-                <Form.Item
-                  name="categoryId"
-                  label="Category"
-                  rules={[
-                    { required: true, message: "Please choose a category " },
-                  ]}
-                >
-                  <Select placeholder="Please choose the category">
-                    {categories?.data?.data.map((cat: Category) => {
-                      return (
-                          <Select.Option key={cat?._id} value={cat?._id}>
-                          {cat?.name}
-                        </Select.Option>
-                      )
-                    })}
-                  </Select>
-                </Form.Item>
-              </Col>
+             
 
 
               <Col span={12}>
