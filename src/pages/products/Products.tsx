@@ -214,7 +214,9 @@ const Products = () => {
           setOpen(false)
         }}
       >
-        <Form layout="vertical" form={form}>
+        <Form layout="vertical" form={form} style={{
+          maxHeight: "700px",
+        }}>
           <CreateProductForm {...{ isEditing }} />
         </Form>
       </Modal>
