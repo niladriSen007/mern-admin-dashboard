@@ -5,7 +5,7 @@ import { RestaurantDataType } from "../pages/restaurants/types"
 
 export const useSingleRestaurantDataFetch = (id: string) => {
   const [tenantData, setTenantData] = useState<RestaurantDataType>()
-  const { refetch: restaurantDataFetch } = useQuery({
+  const { error,isLoading,refetch: restaurantDataFetch } = useQuery({
     queryKey: ["singleRestaurant", id],
     queryFn: async () => {
       const res = await getSingleTenant(id)
@@ -25,5 +25,5 @@ export const useSingleRestaurantDataFetch = (id: string) => {
     fetchRestaurantData()
   }, [restaurantDataFetch])
 
-  return { tenantData }
+  return { tenantData, error,isLoading }
 }

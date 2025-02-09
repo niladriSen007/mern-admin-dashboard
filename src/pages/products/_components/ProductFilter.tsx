@@ -9,8 +9,8 @@ import {
   Switch
 } from "antd"
 import { memo, ReactNode } from "react"
-import { useAllRestaurantsDataFetch } from "../../../hooks"
-import { useCategoriesFetch } from "../../../hooks/useCategoriesFetch"
+import { useAllRestaurantsDataFetch, useCategoriesFetch } from "../../../hooks"
+
 import { Category } from "../types"
 import { useAuthStore } from "../../../store/store"
 
@@ -25,7 +25,7 @@ const ProductFilter = memo(({ children }: ProductFilterProps) => {
     limit: 20,
     q: "",
   })
-  console.log(restaurants?.data?.tenants)
+  //console.log(restaurants?.data?.tenants)
 
   return (
     <Card

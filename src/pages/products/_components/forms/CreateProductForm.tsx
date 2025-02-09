@@ -1,3 +1,4 @@
+import { InboxOutlined } from "@ant-design/icons"
 import {
   Card,
   Col,
@@ -10,14 +11,13 @@ import {
   Typography,
   Upload,
 } from "antd"
-import { InboxOutlined } from "@ant-design/icons"
 import { memo } from "react"
-import { useAllRestaurantsDataFetch } from "../../../../hooks"
-import { useCategoriesFetch } from "../../../../hooks/useCategoriesFetch"
+import { useAllRestaurantsDataFetch, useCategoriesFetch } from "../../../../hooks"
+
 import { RestaurantDataType } from "../../../restaurants/types"
 import { Category } from "../../types"
-import PricingCard from "./PricingCard"
 import AttributesCard from "./AttributesCard"
+import PricingCard from "./PricingCard"
 
 const CreateProductForm = memo(
   ({ isEditing = false }: { isEditing: boolean }) => {
@@ -154,7 +154,7 @@ const CreateProductForm = memo(
           </Row>
         </Card>
 
-        {selectedCategory && <PricingCard />}
+        {selectedCategory && <PricingCard selectedCategory={selectedCategory} />}
         {selectedCategory && <AttributesCard />}
 
         <Card

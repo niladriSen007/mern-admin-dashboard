@@ -11,7 +11,7 @@ export const useDeleteUser = (userId : number) => {
       queryClient.invalidateQueries({
         queryKey: ["allUsers"],
       })
-      console.log("User deleted successfully")
+      //console.log("User deleted successfully")
     },
     onError: (error) => {
       console.error(error)

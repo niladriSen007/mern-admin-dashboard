@@ -12,7 +12,7 @@ export const useUpdateTenant = (tenantId : number) => {
       queryClient.invalidateQueries({
         queryKey: ["allTenants"],
       })
-      console.log("Tenant updated successfully")
+      //console.log("Tenant updated successfully")
     },
     onError: (error) => {
       console.error(error)

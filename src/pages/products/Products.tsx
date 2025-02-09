@@ -47,7 +47,7 @@ const Products = () => {
   }
 
   const { data: products } = useAllProductsDataFetch(queryParams)
-  /*    console.log(products, "data") */
+  /*    //console.log(products, "data") */
   const debouncedQUpdate = useMemo(() => {
     return debounce((value: string | undefined) => {
       setQueryParams((prev) => ({ ...prev, q: value ?? "", currentPage: 1 }))
@@ -60,7 +60,7 @@ const Products = () => {
         [field.name[0]]: field.value,
       }))
       .reduce((acc, curr) => ({ ...acc, ...curr }), {})
-    console.log(changedFields, "cf")
+    //console.log(changedFields, "cf")
 
     if ("q" in changedFields) {
       debouncedQUpdate(changedFields.q)
@@ -135,7 +135,7 @@ const Products = () => {
                     onClick={() => {
                       setCurrentEditingProduct(record)
                       setIsEditing(true)
-                      //console.log(record, "record")
+                      ////console.log(record, "record")
                       setOpen(true)
                     }}
                     style={{
@@ -151,7 +151,7 @@ const Products = () => {
                 >
                   <DeleteOutlined
                     onClick={() => {
-                      console.log(record, "record in delete")
+                      //console.log(record, "record in delete")
                       setDeleteProduct(record)
                     }}
                     style={{

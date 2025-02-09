@@ -80,7 +80,7 @@ const Restaurants = () => {
         [field.name[0]]: field.value,
       }))
       .reduce((acc, curr) => ({ ...acc, ...curr }), {})
-    // console.log(changedFields)
+    // //console.log(changedFields)
     if ("q" in changedFields) {
       debouncedQUpdate(changedFields.q)
     }
@@ -146,7 +146,7 @@ const Restaurants = () => {
                     onClick={() => {
                       setCurrentEditingTenant(record)
                       setIsEditing(true)
-                      //console.log(record, "record")
+                      ////console.log(record, "record")
                       setOpen(true)
                     }}
                     style={{
@@ -162,7 +162,7 @@ const Restaurants = () => {
                 >
                   <DeleteOutlined
                   onClick={()=>{
-                    console.log(record,"record in delete")
+                    //console.log(record,"record in delete")
                     setDeleteTenant(record)
                     
                   }}

@@ -6,7 +6,6 @@ interface DiagramProps {
 }
 
 const Diagram = ({ tenantData }: DiagramProps) => {
-  console.log(tenantData)
   const boxStyle: React.CSSProperties = {
     color: "blueviolet",
     textAlign: "center",

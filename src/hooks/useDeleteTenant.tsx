@@ -11,7 +11,7 @@ export const useDeleteTenant = (tenantId : number) => {
       queryClient.invalidateQueries({
         queryKey: ["allTenants"],
       })
-      console.log("Tenant deleted successfully")
+      //console.log("Tenant deleted successfully")
     },
     onError: (error) => {
       console.error(error)

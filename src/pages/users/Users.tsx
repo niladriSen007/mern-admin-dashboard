@@ -34,7 +34,7 @@ const Users = () => {
     role: "",
   })
   const { data, isFetching, error } = useAllUsersDataFetch(queryParams)
-  console.log(data, "data")
+  //console.log(data, "data")
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [currentEditingUser, setCurrentEditingUser] = useState<DataType | null>(
@@ -87,7 +87,7 @@ const Users = () => {
         [field.name[0]]: field.value,
       }))
       .reduce((acc, curr) => ({ ...acc, ...curr }), {})
-     console.log(changedFields,"cf")
+     //console.log(changedFields,"cf")
 
     if ("q" in changedFields) {
       debouncedQUpdate(changedFields.q)
@@ -165,7 +165,7 @@ const Users = () => {
                     onClick={() => {
                       setCurrentEditingUser(record)
                       setIsEditing(true)
-                      //console.log(record, "record")
+                      ////console.log(record, "record")
                       setOpen(true)
                     }}
                     style={{
@@ -181,7 +181,7 @@ const Users = () => {
                 >
                   <DeleteOutlined
                     onClick={() => {
-                      console.log(record, "record in delete")
+                      //console.log(record, "record in delete")
                       setDeleteUser(record)
                     }}
                     style={{

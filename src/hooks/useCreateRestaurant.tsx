@@ -12,7 +12,7 @@ export const useCreateRestaurant = () => {
       queryClient.invalidateQueries({
         queryKey: ["allTenants"],
       })
-      console.log("User created successfully")
+      //console.log("User created successfully")
     },
     onError:(error) =>{
       console.error(error)

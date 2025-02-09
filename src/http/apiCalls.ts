@@ -38,6 +38,9 @@ export const getAllTenants = (currentPage: number,
 export const getSingleTenant = (id: string) => {
   return api.get(`${AUTH_URL}/tenants/${id}`)
 }
+export const getSingleCategory = (id: string) => {
+  return api.get(`${CATALOGUE_URL}/category/${id}`)
+}
 
 export const createUser = (userData: CreateUserDataProps) => {
   return api.post(`${AUTH_URL}/users/register`, userData)
@@ -79,9 +82,9 @@ export const getAllProducts = (
   q: string,
   tenantId: string,
   categoryId: string,
-  isPublished: boolean | undefined,
+  /* isPublished: boolean | undefined, */
 ) => {
-  console.log(limit, "limit")
+  //console.log(limit, "limit")
   return api.get(
     `${CATALOGUE_URL}/products?page=${currentPage?.toString()}&limit=${limit?.toString()}&q=${q}&tenantId=${tenantId}&categoryId=${categoryId}
     `

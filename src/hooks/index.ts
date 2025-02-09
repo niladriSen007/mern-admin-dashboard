@@ -1,3 +1,5 @@
+import { useSingleCategoryFetch } from './useSingleCategoryFetch';
+import { useCategoriesFetch } from './useCategoriesFetch';
 import {useAllRestaurantsDataFetch} from "./useAllRestaurantsDataFetch"
 import { useAllUsersDataFetch } from "./useAllUsersDataFetch"
 import {useCreateRestaurant} from "./useCreateRestaurant"
@@ -25,6 +27,7 @@ export {
   useLogout,
   usePermission,
   useSingleRestaurantDataFetch,
-  useUserDataFetch
-  
+  useUserDataFetch,
+  useCategoriesFetch,
+  useSingleCategoryFetch
 }

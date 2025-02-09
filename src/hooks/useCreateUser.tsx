@@ -14,7 +14,7 @@ export const useCreateUser = () => {
       queryClient.invalidateQueries({
         queryKey: ["allUsers"],
       })
-      console.log("User created successfully")
+      //console.log("User created successfully")
     },
     onError: (error) => {
       console.error(error)

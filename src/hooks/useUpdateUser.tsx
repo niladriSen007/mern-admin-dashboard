@@ -12,7 +12,7 @@ export const useUpdateUser = (userId : number) => {
       queryClient.invalidateQueries({
         queryKey: ["allUsers"],
       })
-      console.log("User updated successfully")
+      //console.log("User updated successfully")
     },
     onError: (error) => {
       console.error(error)

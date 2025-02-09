@@ -1,51 +1,59 @@
-import { Card, Row, Space, Col, Form, Input } from "antd"
+import { Card, Col, Form, Input, Row, Space, Typography } from "antd"
+import { useSingleCategoryFetch } from "../../../../hooks"
+interface PriceCardProps {
+  selectedCategory: string
+}
 
-const PricingCard = () => {
+const PricingCard = ({ selectedCategory }: PriceCardProps) => {
+  const { categoryData } = useSingleCategoryFetch(selectedCategory)
+  //console.log(categoryData, selectedCategory, "categoryData")
   return (
     <Card
       style={{ boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.08)" }}
       title={<Space>Product Pricing</Space>}
     >
-      <Row gutter={32} align={"middle"}>
-        <Col span={8}>
-          <Form.Item
-            name="price"
-            label="Price"
-            rules={[{ required: true, message: "Please enter product price" }]}
-          >
-            <Input placeholder="Please enter product price" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            name="discount"
-            label="Discount"
-            rules={[
-              { required: true, message: "Please enter product discount" },
-            ]}
-          >
-            <Input placeholder="Please enter product discount" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            name="stock"
-            label="Stock"
-            rules={[{ required: true, message: "Please enter product stock" }]}
-          >
-            <Input placeholder="Please enter product stock" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            name="stock"
-            label="Stock"
-            rules={[{ required: true, message: "Please enter product stock" }]}
-          >
-            <Input placeholder="Please enter product stock" />
-          </Form.Item>
-        </Col>
-      </Row>
+      {categoryData?.priceConfiguration &&
+        Object.keys(categoryData.priceConfiguration).map((key) => {
+          return (
+            <Space key={key} direction="vertical">
+              <Typography.Text
+                style={{ fontWeight: "medium", marginBottom: "10px" }}
+              >
+                {" "}
+                {key} ({categoryData.priceConfiguration[key].priceType})
+              </Typography.Text>
+              <Row key={key} gutter={16}>
+                {categoryData.priceConfiguration[key].availableOptions.map(
+                  (option) => {
+                    return (
+                      <Col
+                        span={
+                          24 /
+                          categoryData.priceConfiguration[key].availableOptions
+                            .length
+                        }
+                        key={option}
+                      >
+                        <Form.Item
+                          name={option}
+                          label={option}
+                          rules={[
+                            {
+                              required: true,
+                              message: `Please enter ${option} price`,
+                            },
+                          ]}
+                        >
+                          <Input placeholder={`Enter ${option} price`} />
+                        </Form.Item>
+                      </Col>
+                    )
+                  }
+                )}
+              </Row>
+            </Space>
+          )
+        })}
     </Card>
   )
 }
